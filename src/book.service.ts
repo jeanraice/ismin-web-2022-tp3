@@ -1,5 +1,5 @@
 import { Injectable, OnModuleInit} from '@nestjs/common';
-import { fstat, readFile } from 'fs';
+import { readFile } from 'fs/promises';
 import {Book} from './interface/Book'
 import { bookDto } from './interface/book.dto';
 
@@ -7,16 +7,19 @@ import { bookDto } from './interface/book.dto';
 @Injectable()
 
 export class BookService implements OnModuleInit {
-onModuleInit(){
-    readFile('./dataset.json', 'utf8', function (err,data){
-            if (err) {
-              return console.log(err);
-            }
-            console.log(data);
-     throw new Error('Method not implemented.');
+
+    private listBook : Book[]=[];
+onModuleInit(): Promise<void>{
+return readFile('./src/dataset.json')
+    .then((data)=>{
+        this.listBook = JSON.parse(data.toString()); //Convertir le buffer en string puis en objet qui sera ajouter a la listBook
+    }) 
+    .catch((err)=>{
+        throw(err);
     })
+    
 }
-   private listBook : Book[]=[];
+
 
     AddBook(book: bookDto):Book{
         if(!this.listBook.some((listBook) => book.title === listBook.title)) {
