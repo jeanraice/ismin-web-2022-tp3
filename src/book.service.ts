@@ -3,7 +3,7 @@ import { Injectable, OnModuleInit} from '@nestjs/common';
 import { readFile } from 'fs/promises';
 import {Book} from './interface/Book'
 import { bookDto } from './interface/book.dto';
-import {AxiosResponse} from 'Axios';
+import {AxiosResponse} from 'axios';
 import { ApiBook } from './interface/ApiBook';
 import {map,tap} from 'rxjs';
 
